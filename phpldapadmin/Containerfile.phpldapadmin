@@ -1,0 +1,4 @@
+FROM osixia/phpldapadmin
+ 
+ # Set the environment variables
+ ENV PHPLDAPADMIN_HTTPS="false"

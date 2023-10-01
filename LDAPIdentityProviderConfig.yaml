@@ -1,0 +1,25 @@
+apiVersion: config.openshift.io/v1
+kind: OAuth
+metadata:
+  name: cluster
+spec:
+  identityProviders:
+  - name: ldap_idp_provider 
+    mappingMethod: claim 
+    type: LDAP
+    ldap:
+      attributes:
+        email:
+          - mail
+        id:
+          - dn
+        name:
+          - cn
+        preferredUsername:
+          - uid
+      bindDN: 'cn=admin,dc=your,dc=company,dc=com'
+      bindPassword: 
+        name: ldap-bind-password
+      insecure: true
+      url: >-
+        ldap://openldap.ldap.svc.cluster.local:389/ou=Users,dc=your,dc=company,dc=com?uid?sub?(&(businessCategory=openshift-allow-login)(|(memberOf=CN=openshift-cluster-admin,OU=OpenShift,OU=Groups,DC=your,DC=company,DC=com)(memberOf=CN=openshift-developers,OU=OpenShift,OU=Groups,DC=your,DC=company,DC=com)))

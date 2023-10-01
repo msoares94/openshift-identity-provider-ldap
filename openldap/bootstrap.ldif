@@ -1,0 +1,83 @@
+version: 1
+
+dn: olcDatabase={1}mdb,cn=config
+changetype: modify
+add: olcDbIndex
+olcDbIndex: businessCategory eq
+
+# Entry 1: ou=Groups,dc=your,dc=company,dc=com
+dn: ou=Groups,dc=your,dc=company,dc=com
+changetype: add
+objectclass: organizationalUnit
+ou: Groups
+
+# Entry 2: ou=OpenShift,ou=Groups,dc=your,dc=company,dc=com
+dn: ou=OpenShift,ou=Groups,dc=your,dc=company,dc=com
+changetype: add
+objectclass: organizationalUnit
+objectclass: top
+ou: OpenShift
+
+# Entry 3: cn=openshift-cluster-admin,ou=OpenShift,ou=Groups,dc=your,dc=company,dc=com...
+dn: cn=openshift-cluster-admin,ou=OpenShift,ou=Groups,dc=your,dc=company,dc=com
+changetype: add
+cn: openshift-cluster-admin
+objectclass: groupOfUniqueNames
+objectclass: top
+uniquemember: cn=user-cluster-admin@your.company.com,ou=Users,dc=your,dc=company,dc=com
+
+# Entry 4: cn=openshift-developers,ou=OpenShift,ou=Groups,dc=your,dc=company,dc=com...
+dn: cn=openshift-developers,ou=OpenShift,ou=Groups,dc=your,dc=company,dc=com
+changetype: add
+cn: openshift-developers
+objectclass: groupOfUniqueNames
+objectclass: top
+uniquemember: cn=user-developer@your.company.com,ou=Users,dc=your,dc=company,dc=com
+
+# Entry 5: ou=Users,dc=your,dc=company,dc=com
+dn: ou=Users,dc=your,dc=company,dc=com
+changetype: add
+objectclass: organizationalUnit
+ou: Users
+
+# Entry 6: cn=user-cluster-admin@your.company.com,ou=Users,dc=your,dc=com...
+dn: cn=user-cluster-admin@your.company.com,ou=Users,dc=your,dc=company,dc=com
+changetype: add
+businesscategory: openshift-allow-login
+cn: user-cluster-admin@your.company.com
+displayname: User Cluster Admin
+givenname: User
+mail: user-cluster-admin@your.company.com
+memberof: cn=openshift-cluster-admin,ou=OpenShift,ou=Groups,dc=your,dc=company,dc=com
+objectclass: inetOrgPerson
+objectclass: top
+sn: 1
+uid: user-cluster-admin
+userpassword: secret
+
+# Entry 7: cn=user-developer@your.company.com,ou=Users,dc=your,dc=company,dc=com...
+dn: cn=user-developer@your.company.com,ou=Users,dc=your,dc=company,dc=com
+changetype: add
+businesscategory: openshift-allow-login
+cn: user-developer@your.company.com
+displayname: User Developer
+givenname: User
+mail: user-developer@your.company.com
+memberof: cn=openshift-developers,ou=OpenShift,ou=Groups,dc=your,dc=company,dc=com
+objectclass: inetOrgPerson
+sn: 2
+uid: user-developer
+userpassword: secret
+
+# Entry 8: cn=user-nologin@your.company.com,ou=Users,dc=your,dc=company,dc=com...
+dn: cn=user-nologin@your.company.com,ou=Users,dc=your,dc=company,dc=com
+changetype: add
+cn: user-nologin@your.company.com
+displayname: User not Login
+givenname: User
+mail: user-nologin@your.company.com
+objectclass: inetOrgPerson
+objectclass: top
+sn: 2
+uid: user-nologin
+userpassword: secret
