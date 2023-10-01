@@ -1,4 +1,5 @@
 # Configurando o provedor de identidade LDAP no OpenShift Container Platform e sincronizando grupos LDAP automaticamente
+![](./imagens/openshift_tela_login_with_ldap.png)
 
 ## Pré-requisitos
 
